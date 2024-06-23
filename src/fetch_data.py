@@ -4,7 +4,7 @@ from alpha_vantage.timeseries import TimeSeries
 from alpha_vantage.options import Options
 from alpha_vantage.fundamentaldata import FundamentalData
 
-ALPHA_VANTAGE_API_KEY = os.getenv('ALPHA_VANTAGE_API_KEY', 'VTO9PIM41XLWQP6X')
+ALPHA_VANTAGE_API_KEY = os.getenv('ALPHA_VANTAGE_API_KEY', 'your_api_key_here')
 
 def fetch_stock_data(symbol, start_date, end_date):
     """

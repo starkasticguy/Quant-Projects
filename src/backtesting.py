@@ -1,22 +1,8 @@
 import pandas as pd
 import numpy as np
 from option_pricing import bsm_option_price, monte_carlo_option_price
+from fetch_data import fetch_stock_data, fetch_option_data
 
-# Function to generate sample market data
-def generate_sample_data():
-    dates = pd.date_range(start="2022-01-01", periods=100, freq='B')
-    data = {
-        'Date': dates,
-        'Stock Price': np.random.normal(100, 10, len(dates)),
-        'Strike Price': 100,
-        'Time to Maturity': np.linspace(1, 0, len(dates)),
-        'Risk-free Rate': 0.05,
-        'Volatility': 0.2,
-        'Market Price': np.random.normal(10, 2, len(dates))
-    }
-    return pd.DataFrame(data)
-
-# Function to backtest a strategy
 def backtest(data, model='bsm'):
     signals = []
     returns = []
@@ -47,7 +33,6 @@ def backtest(data, model='bsm'):
     data['Returns'] = returns
     return data
 
-# Function to calculate performance metrics
 def calculate_performance_metrics(data):
     total_return = data['Returns'].sum()
     annual_return = np.mean(data['Returns']) * 252
@@ -62,11 +47,24 @@ def calculate_performance_metrics(data):
     return metrics
 
 if __name__ == "__main__":
-    # Generate sample data
-    data = generate_sample_data()
+    symbol = "AAPL"
+    start_date = "2022-01-01"
+    end_date = "2023-01-01"
+
+    stock_data = fetch_stock_data(symbol, start_date, end_date)
+    print(stock_data.head())
+
+    option_data = fetch_option_data(symbol)
+    print(option_data.head())
+
+    # Prepare the option data for backtesting
+    option_data = option_data.rename(columns={'strike': 'Strike Price', 'lastPrice': 'Market Price'})
+
+    # Merge stock data with option data
+    merged_data = stock_data.merge(option_data, left_index=True, right_index=True)
 
     # Backtest the strategy using the BSM model
-    strategy_data = backtest(data, model='bsm')
+    strategy_data = backtest(merged_data, model='bsm')
 
     # Calculate performance metrics
     metrics = calculate_performance_metrics(strategy_data)
@@ -76,4 +74,4 @@ if __name__ == "__main__":
         print(f"{key}: {value}")
 
     # Save the results to a CSV file
-    strategy_data.to_csv('backtest_results.csv', index=False)
+    strategy_data.to_csv('backtest_results_real_data.csv', index=False)
