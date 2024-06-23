@@ -13,7 +13,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.9'  # Specify the Python versio here
+        python-version: '3.9'  # Specify the Python version here
 
     - name: Install dependencies
       run: |
@@ -23,14 +23,14 @@ jobs:
         pip install -r requirements.txt
       shell: bash
 
-    - name: Verify Python and pip versions
-      run: |
-        python --version
-        pip --version
-      shell: bash
-
-    - name: Run script
+    - name: Run option pricing script
       run: |
         source venv/bin/activate
         python src/option_pricing.py
+      shell: bash
+
+    - name: Run backtesting script
+      run: |
+        source venv/bin/activate
+        python src/backtesting.py
       shell: bash
