@@ -20,4 +20,4 @@ jobs:
     - name: Run script
       run: |
         source venv/bin/activate
-        python src/fetch_data.py
+        python src/option_pricing.py
