@@ -56,7 +56,7 @@ if __name__ == "__main__":
     # Example parameters
     S = 100  # Stock price
     K = 100  # Strike price
-    T = 1    # Time to maturity in years
+    T = 1.0    # Time to maturity in years
     r = 0.05 # Risk-free rate
     sigma = 0.2 # Volatility
 
