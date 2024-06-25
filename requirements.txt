@@ -4,4 +4,4 @@ requests
 scipy
 matplotlib
 seaborn
-alpha_vantage'
+alpha_vantage
